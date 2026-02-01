@@ -1,0 +1,23 @@
+# Environment Variables (Keep SECRET!)
+.env
+
+# Virtual Environment
+.venv
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+
+# RAG Database (Local only)
+rag.db
+*.pkl
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
