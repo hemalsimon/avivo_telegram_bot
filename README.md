@@ -1,8 +1,8 @@
-# Mini-RAG Telegram Bot 🤖💰
+# Mini-RAG Telegram Bot
 
 A lightweight GenAI bot that answers finance-related questions using a local Retrieval-Augmented Generation (RAG) system. Powered by **Ollama** (`kimi-k2.5:cloud`) and **Python Telegram Bot**.
 
-## 🚀 Features
+## Features
 - **RAG Engine**: Retrieves answers from local finance documents.
 - **Persistent Storage**: SQLite (instantly loads chunks on restart).
 - **Smart Features**:
@@ -13,13 +13,19 @@ A lightweight GenAI bot that answers finance-related questions using a local Ret
 - **Robustness**: Auto-retry logic for network stability.
 - **Privacy-First**: Vector search runs entirely locally (NumPy equivalent).
 
-## 📦 Tech Stack
+## Tech Stack
 - **Bot**: `python-telegram-bot`
 - **LLM**: Ollama (`kimi-k2.5:cloud`)
 - **Embeddings**: `sentence-transformers`
 - **Vector Store**: SQLite (Persistence) + NumPy (Search)
 
-## 🛠️ Setup & Run
+## Pipeline Flow
+1.  **Ingestion (Startup)**: Checks `rag.db`. If empty, loads documents from `data/docs`, chunks them, creates embeddings, and saves to SQLite.
+2.  **Retrieval (Fast)**: On `/ask`, the query is embedded and compared against stored vectors using Cosine Similarity (NumPy).
+3.  **Augmentation**: The top 3 relevant chunks are combined with the last 3 messages of conversation history.
+4.  **Generation**: The constructed prompt is sent to **Ollama**, and the response is streamed back to Telegram.
+
+## Setup & Run
 
 ### 1. Prerequisites
 - Python 3.9+
@@ -52,7 +58,7 @@ python main.py
 ```
 Search for your bot in Telegram and click `/start`.
 
-## 📂 Project Structure
+## Project Structure
 ```text
 ├── main.py                 # Bot entry point
 ├── rag.py                  # RAG engine (Indxing & Retrieval)
@@ -61,7 +67,7 @@ Search for your bot in Telegram and click `/start`.
 └── requirements.txt        # Dependencies
 ```
 
-## 🧪 Testing RAG
+## Testing RAG
 To test the RAG engine without the bot:
 ```bash
 python test_rag.py
